@@ -1,0 +1,24 @@
+1.
+	recebe se pacotes ICMPv6 com source do router (router advertisement)
+	para saber que o router esta la naquela posição (verificavel atraves
+	do comando  show ipv6 interface brief)
+	com o comando show ipv6 route, conseguimos ver que a rede apenas
+	link-local.
+
+2.
+	usando o comando ipv6 address 2001:A:1:1::100/64 definimos o global
+	address, pode se verificar vendo os ipv6 do VPCS em que agora ja
+	possui link global
+	
+	recebem se pacotes Multicast Listener Report v2, um neighbor
+	solicitation pelo ip definido e um advertisement do novo ip
+	para mostrar a sua existencia
+
+3. 
+	sao recebidos um pacote neighbor solicitation a procura do address
+	e um advertisement a anunciar a criação do no link global
+
+4.
+	ao mandar para o link-local envia pacotes ICMPv6 neighbor
+	solicitation e advertisement e echo request and reply
+	e para o global igual

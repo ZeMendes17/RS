@@ -1,0 +1,10 @@
+PC 1 --> Switch 1:
+	conectividade sim, pacotes: ARP Request
+PC 1 --> PC 3:
+	conectividade sim, pacotes: ARP request e reply, ICMP request e reply
+PC 1 --> PC 4:
+	conectividade nao, pacotes: ARP request
+PC 2 --> PC 3:
+	conectividade nao, pacotes: ARP request
+PC 2 --> PC 4:
+	conectividade sim, pacotes: ARP reques, ARP reply, ICMP request e reply

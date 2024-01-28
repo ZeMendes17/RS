@@ -1,0 +1,8 @@
+que redes é que vai partilhar com os outros --> rip
+o rip permite saber as rotas possiveis
+por exemplo se um router nao chegar ao outro diretamente, atraves do rip
+ele determina as vias de como la chegar atraves dos routers a que esta ligado
+tendo por base os next_hops, so que faz automaticamente, sem necessidade de 
+configurar todas as rotas possiveis
+
+ao fazer show ip route ele mostra todos os caminhos possiveis para cada rede

@@ -1,0 +1,54 @@
+os routers so vao comunicar entre si atraves das redes configuradas
+nem se quer comunicam um com os outros em termos de encaminhamento
+agora é preciso estabelecer ligação para eles poderem comunicar entre si
+Com os comandos:
+no router 1:
+	vai fazer, ip route 192.168.3.0 255.255.255.0 192.168.2.2
+			^ net id	^ mascara	^ é o next_hop
+		   ip route 192.168.4.0 255.255.255.0 192.168.2.2
+		   ipv6 route 2001:C:1:1::/64 2001:B:1:1::2
+		   ipv6 route 2001:D:1:1::/64 2001:B:1:1::2
+no router 2:
+	ip route 192.168.1.0 255.255.255.0 192.168.2.1
+	ip route 192.168.4.0 255.255.255.0 192.168.3.3
+	ipv6 route 2001:A:1:1::/64 2001:B:1:1::1
+	ipv6 route 2001:A:1:2::/64 2001:B:1:1::1
+	ipv6 route 2001:D:1:1::/64 2001:C:1:1::3
+
+no router 3:
+	conf terminal
+	ip route 192.168.1.0 255.255.255.0 192.168.3.2
+	ip route 192.168.2.0 255.255.255.0 192.168.3.2
+	ipv6 route 2001:A:1:1::/64 2001:C:1:1::2
+	ipv6 route 2001:A:1:2::/64 2001:C:1:1::2
+	ipv6 route 2001:B:1:1::/64 2001:C:1:1::2
+	end
+	write
+
+depois de configurar todos os routers, todos os routers conseguem comunicar
+com todos os outros entre si, pois ja conhecem todas as rotas possiveis
+
+do router 1:
+	ping 192.268.4.3 da certo
+	ping 2001:D:1:1::3 tambem
+	ha comunicação
+
+ao meter "no" antes dos ip routes ou ipv6 route este anula estes
+quando so exite uma saida possivel (next hop) entao pode se usar
+uma saida geral 0.0.0.0 0.0.0.0 para ipv4 e ::/0 para ipv6
+continua a ter as mesmas comunicações e consegue pingar todos
+os outros na mesma; Não altera nada so torna mais facil a conf
+
+
+na questao 9 é para capturar pacotes e analisar o source o destination
+o ethernet header (explicar a diferença) 
+
+os routers constroiem pacotes para entregar para um router diferente
+altera o source MAC address e o destinations MAS address
+o campo time to live (ttl) serve para envitar que os pacotes andem
+perdidos para sempre na interner (ttl = 50 ao passar por 50 routers morre)
+diminui um ttl ao passar por um rouuter (normalmente o ttl é um valor elevado
+para os pacotes nao ficarem perdidos)
+
+isto foi pacotes de encaminhamento estatica, a seguir na proxima pratica
+encaminhamento dinamico

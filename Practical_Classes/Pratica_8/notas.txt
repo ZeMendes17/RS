@@ -1,0 +1,85 @@
+1, 2 e 3.
+configuramos o "ip ospf 1 area 0" aprendido na aula passada
+de seguida temos de configurar o bgp:
+	router bgp 1
+	neighbor192.20.20.2 remote-as 2
+	network 192.10.10.0
+usa se o bgp para complementar aquilo que o ospf faz, vai ser a comunicacao
+entre os router de cima, R1, R2
+
+configuramos os routers como indicado, com ospf e bgp, iniciamos captura
+entre os routers em que a rede nao possui ospf (R1 R2), e colocando um
+filtro BGP or TCP (protocolo de transporte)
+no inicio atraves de pacotes TCP os routers conectam se, com syn, ack
+(acknoledge)
+primeiramente tem a mensagem de OPEN message, para eles se reconhecerem
+envia tambem pacotes KEEPALIVE e UPDATE
+ao abrir mos o pacote UPDATE na aba network layer, podemos ver a
+recheability information (NLRI)
+depois do UPDATE, ha sempre pacotes BGP KEEPALIVE (para manter a ligação do
+TCP ativa e nao deixar a ligação fechar) e pacotes TCP
+se houver alterações (na rede) ai havera outro update
+
+fazer "show ip route" e verificar que apresenta cominhos "B" (de BGP)
+o router 1 apresenta 192.30.31.0 e 192.30.30.0
+
+4. desligar a interface da rede 30.31.0, havera envio de pacotes?
+sim manda um UPDATE com unreachibility para essa rede, com campo
+withdrawn route (tira essa rede da routing table
+
+a seguir fazer no shutdown
+reparar que recebe outro UPDATE NLRI
+
+5, 6, 7.
+assciar uma rede inteira num unico ip que englobe todos
+(ir ate ao unico bit que é comum aos ips todos dessa rede)
+a diferenca esta no 24 bit, logo 192.30.30.0/23
+o router 2 é que tem de fazer a agregação
+pois tem de ser feito nos routers fronteira para nao 
+causar nenhum erro
+
+para ver ser isto esta a funcionar, no outro router agora, em vez
+de aparecerem as 2 redes, vai apenas aparecer 1 (melhor)
+192.30.30.0/23 
+
+na routing table do 2 vemos que esta a fazer a agragação
+192.30.30.0/23 [200/0] via 0.0.0.0, 00:01:36, Null0
+
+de seguida voltar a fazer shutdown da rede 31, havera mensagens?
+nao, pois a rede continua a ser a agregada. O que é mau pois
+a rede foi a baixo mas o router 1 nao sabe. Os pings serao efetuados
+na mesma
+
+se fizer shutdown do agragado todo (rede debaixo do router 2) 
+ai sim sera mandado update pois é impossivel de comunicar com a rede
+com o agregado na sua totalidade
+
+se nao se alterar os pacotes BGP sera sempre KEEPALIVEs
+se houver algo, UPDATE
+
+
+8 e 9.
+é preciso configurar tudo de novo
+dai fazer:
+	no router bgp 1
+	router bgp 1
+para configurar o ipv4 todo de novo e o network e o neighbor
+a configuração do ipv4 e 6 do bgp é igual, so temos de fazer tudo
+em conjunto (é assim que funcionam)
+
+ipv6 neste caso nao tem agregaçao
+
+fazer o comando "show ipv6 route" e aparece os B:
+
+	B   2001:30:30::/64 [20/0]
+     	via FE80::C002:1AFF:FED3:1, FastEthernet0/1
+	B   2001:30:31::/64 [20/20]
+    	via FE80::C002:1AFF:FED3:1, FastEthernet0/1
+
+verificar que os ipv4 ainda fucionam com o comando "show ip route"
+o bgp tem uma extensão para suportar o ipv6, é isso que estamos a ver
+
+9.
+os pacotes que apanhamos para ipv6 ja nao sao vermelhos
+continua a receber os mesmos pacotes, os updates agora tem o ipv6
+tambem

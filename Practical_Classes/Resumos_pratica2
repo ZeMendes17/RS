@@ -1,0 +1,109 @@
+Spanning tree:
+	Equações de Bellman:
+		comprimento do percurso --> comprimento entre os nos até á root
+	
+	Algoritmo de Bell-Ford:
+		-cada nó transmite de tempo em tempo a estimativa do custo entre ele e o nó destino
+		-cada nó recalcula a estimativa do custo ate ao destino (soma dos vizinhos) e
+		 escolhem o menor valor
+
+	Encaminhamento baseado em SP:
+		- é escolhido um switch como nó origem/raiz
+		- os outros usam o algoritmo de Bellman-Ford para calcular o vizinho, no percurso
+		  de custo minimo para a origem/raiz
+		- as ligações compostas pelos percursos de custo minimo definem uma SP
+		- as portas ativas são as das ligações que compoem a SP
+		- é necessário um criterio para desempatar quando ha multiplos percursos de
+		  custo minimo
+
+	Bridge/Switch raiz --> raiz da SP com menor ID
+	Bridge designada --> numa lan é respondavel pelo envio e receção de pacotes ate a raiz
+	Porta designada --> porta responsavel pelo envio de pacotes para a raiz na bridge des..
+	Porta raiz --> porta responsavel pela receção/transmissão de pacotes de/para a raiz
+
+	Root path cost --> soma de todos os custos ate á raiz
+
+	A porta raiz é em cada bridge a fornece melhor percurso para a raiz
+	" " designada é, em cada Lan, a porta que fornece o melhor percurso para a raiz
+	As portas ativas em cada bridge são a porta raiz + as designadas (as restantes --> block)
+	
+IPv6:
+	Interfaces have multiple addresses
+		Link Local: Valid whithin the same Lan or link
+		Unique Local: Valid whithin the same private domain; Cannot be used in internet
+		Global
+	Addresses have lifetime: Valid and preferred lifetime
+
+	Unicast: Address of a single interface; One-to-one delivery to single interface
+	Multicast: Adress of a set of interfaces; One-to-many delivery to all interfaces in the
+	 set
+	Anycast: Address of a set of interfaces; One-to-one-of-many delivery to a single interface
+	 in the set that is closest
+	
+	IPv6 does not have ARP, it is Neighbor Solicitation and N.. Advertisement
+	No more ARP table --> NDP table (maintains a list of 
+
+	ICMPv6 --> implementation ICMP for IPv6
+		same funcs as ICMP and enhaces ARP
+	Neighbor discovery uses ICMPv6 messages
+
+	
+	Router Solicitation --> Host send to inquire presence of router
+	Router advertisement --> sent out by routers periodically, or response to a solicitation
+	Neighbor Solicitation --> Sand to discover link layer of IPv6 node (Unicast address)
+	Neighbor Advertisement --> response to a solicitation/ sends inform change of linkL add..
+	Redirect --> used by a router to signal the reroute of a packet to a better router
+
+	Auto-configuration:
+		Stateless --> node conf global IPv6 address by appending its ID to prefixes
+		Stateful --> obtained using DHCPv6
+		The default gateway may send two configurable flags in router advertisement
+
+	Multicast Listener Discovery (MLD)
+		MLD permits the creation/management of multicast groups
+		MLD is used by an IPv6 router to...
+		no need to know for know i guess
+
+Encaminhamento estatico:
+	É predefinido por configuração estatica é predifinido por conf estatica.
+	Define-se o next hop para atingir uma determinada rede
+	 este deve ser o endereço do router do caminho que deverá pertencer a uma rede que
+	 o router ja conhece
+	É necessário a def de uma rota estatica para cada rede para a qual se quer conectar
+
+	Rotas estaticas:
+		routers apenas conhecem as redes a que estao diretamente ligados (nao definidos)
+
+RIP(Routing Information Protocol):
+	Apenas conhece a info que os routers vizinhos enviam periodicamente
+	Cada router determina os percursos de custo minimo para todos os destinos (SP)
+	
+	-vetor distancia
+	mantem um vetor distancia com uma lista dos ips que conhece e faz estima do melhor custo
+	envio periodico so seu vetor distancia para os vizinhos
+	cada router usa informação enviada pelos visinhos para atualizar o vetor distancia
+	-o custo de um percurso de um router para uma rede é dado pelo numero de routers
+	 intermedios
+	-cada router determina as entradas da sua tabela com base nos vetores distancia recebidos
+	 dos vizinhos
+
+RIPv1:
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

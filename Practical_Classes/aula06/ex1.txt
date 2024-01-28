@@ -1,0 +1,55 @@
+da block a porta entre switch 2 e 3 pois nao possui maior custo
+no entanto, tem um bridge id maior logo como criterio esta porta
+é bloqueada.
+
+brigde id: Priority + MAC ADDR
+	   (32768)
+	   
+
+Rede	Designated Bridge
+A	Sw1
+B	Sw2
+c	Sw3
+
+Switch	Porta raiz	MAC
+1	---		c201.17e2.0000
+2	f1/1
+3	f1/0
+
+
+ligando os switches um a um, primeiro o 3 depois o 2 e finalmente o 1
+o rootID vai se alterar sempre que é ligado um novo switch pois os switches
+verificam que existe um novo router designado que é a nova root com custo 19
+
+
+para baixar a prioridade é so baixar um numero, qualquer a baixo da priority
+neste caso 32768, por exempl0 30000
+o switch 3 passa a ser a root e a porta bloqueada altera se
+
+
+alterar o custo para alterar as portas que se encontram bloqueadas, pois
+ao alterar o custo se for mais pequeno o caminho sera preferivel
+o caminho fica learning e depois altera para forwarding
+o caminho antigo bloqueia
+
+
+se alterar o hello time da root -> todos os hello times sao alterados
+se alterar o hello time de outro sem ser root -> apenas o seu hello time é
+alterado
+
+
+criando uma vlan 2, nao alterando nada, estas têm a mesma spanning tree
+verificar atraves de show spanning-tree vlan 1 e vlan 2, verificar que 
+têm a mesma root, pois usa a informação que tinha anteriormente
+no entanto uma vez que alteramos os custos, as portas bloqueadas nao serao
+as mesmas
+neste caso na vlan 1 a porta bloqueada sera no switch 1 e na vlan 2 sera
+no switch 3
+surge um protocolo da cisco PVST+, conseguimos ver no WireShark a vlan origem
+diferentes BPDU's
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+1.
+	ao verificar a stp em todos os routers, vamos verificar que todas
+	as portas axeto uma etao forwarding. Esta outra porta encontra se
+	blocking pois como o router 2 possui menor id que o router 3,
+	a porta do 3 bloqueia, ja que se pertender chegar á root a partir
+	da rede entre 2 e 3, pode faze lo com menor custo pelo s2.
+
+2.
+	serve para mostrar como nos pacotes BPDU se verifica as portas
+	root e designadas e blocking etc
+
+	tambem ao analisar os pacotes, na rede 13 e 12, apenas recebem
+	do router 1, enquanto que na 23, tem do router 1 e 2
+
+3.
+	sao enviados cdp's para atualizar o protocolo stp quando o
+	switch 1 é ligado.
+
+4. 
+	ao alterar a prioridade do switch 2 para 18 (mais baixa)
+	este passa a ser a root, e a porta bloqueada vai ser portanto 
+	f1/0 do switch 3 		

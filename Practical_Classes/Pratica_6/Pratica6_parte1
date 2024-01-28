@@ -1,0 +1,22 @@
+ex1
+ao ligar ws no router e a meter ipv6 ativo, aparecem logo varios pacotes
+	neighbor solicitation, advertisement e multicasts(mld)
+depois de configurar o ipv6 o router ganha um endereço link local
+
+ex2
+ao configurar a interface manualmente para o ipv6, vai haver pacotes
+	router advertisement, mld, e neighbors
+pode se verificar ao fazer o comando
+	show ipv6 interface brief
+que agora f0/0 tem 2 diferentes, dos quais o novo é global
+no pc podemos ver que ganha um global scope que é este novo
+
+apesar de nao ser nada configurado no pc, este é configurado automaticamente
+ao configurar o router
+
+ex4
+ping FE80::C001:25FF:FEF2:0 --> nao precisa de descbrir o mac address do router
+	pois ja esta dentro do FE..., nao ha necessidade de neighbor(arp)
+ping 2001:A:1:1::100 --> precisa de descobrir o mac
+ping 2001:A:1:2:C001:25FF:FEF2:0 --> not reachable
+

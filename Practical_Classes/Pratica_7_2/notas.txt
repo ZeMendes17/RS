@@ -1,0 +1,97 @@
+para configurar ospf:
+	route ospf 1
+	network 192.10.10.0 0.0.0.255 area 0
+	network 192.20.20.0 0.0.0.255 area o
+	end
+	write
+
+ao fazer show ip route num router vai nos aparecer os caminhos possiveis
+para certa rede (sem preferencia, tanto faz para onde vai) via as ligações
+de rede fornecidas
+
+fazer os comandos
+show ip ospf database
+show ip ospf database network
+show ip ospf database router 
+
+como nao ha conf manual, o que tiver menor id vai ser o designated router
+
+a base de dados do router de um dos routers:
+	tem info relativva a todos os routers
+
+a base de dados das redes:
+	rede 192.10.10.1, o nome da rede vem do router 1
+	diz o numero de routers ligados e quais sao
+
+router ip --> maior id dos routers
+network ip --> id do router designado
+(estes 2 sao importantes)
+
+diferente dos rips consegue correr o algoritmo sozinho sem que seja
+necessario dizer as rotas e tudo mais
+
+9
+
+ao fazer ping do pc para outra rede ip tem de ir ao gateway primeiro
+como possui custos iguais, nao se sabe por onde o router vai enviar o pacote,
+queremos que envie por baixo (sentido contrario dos ponteiros)
+Nao temos a certeza do request, o reply vai peloo mesmo
+
+ao fazer ping para 192.30.30.1
+vai ser capturado um pacote icmp redirect caso nao seja esse o caminho a
+tomar
+caso contrario, vai receber varios pacotes icmp requests, nao recebe
+replys pois vao por outro caminho mais curto, menos custo 
+
+redirect --> diz ao pc, nao mandes o pacote para mim, manda logo para o
+outro router que ele tem o caminho
+
+alterar o custo para que o pacote va no outro sentido
+	fazer conf t, int f0/1, ip ospf cost 9, end, write
+como ver que ele agora vai mesmo por baixo?
+	ir ao router 3 e fazer show ip route e ver que uma rede
+	disponivel desapareceu, pois a que la esta é bem melhor
+
+10
+ao fazer filtro OSPF, a maioria dos pacotes é hello packets,
+fazendo a alteração do custo, vao ser enviados pacotes link state(LS)
+update para atualizar e acknouledge para mostrar que recebeu
+
+ao abrir o pacote ospf vê se que a metrica é alterada
+
+11
+colocar no router 2, dentro do ospf,
+	default-information originate always
+
+neste router nao aparece diferença nenhuma
+nos outros aparece O*E2  (O --> ospf, * ->default route, E2 --> external
+type 2 (para ficar E1, á frente tinhamos de por metric type 1))
+E2 --> o custo em qualquer router vai ser igual, sempre o que estiver
+á frente ([110/1], neste caso 1)
+E1 --> vai somar 10 + 10 + 10 + 1 (soma os custos)
+
+12
+criar area 1 (passar a ter duas areas patra ver no que influencia)
+temos de alterar tudo de novo pois esta tudo na area 0 e queremos por as 
+redes 20 e 30 para a area 1
+
+para nao dar problemas, fazer shutdown dos terminais de cada uma destas na
+entrada do router 1 e 3
+apenas vai ter diferença na base de dados
+router na area 1 apenas tem info da area 1 (router 2)
+routers em 2 areas tem das 2 (router 1 e 3)
+
+
+PROTOCOLO RIPng
+ao dar shut a uma porta, vao ser enviados pacotes RIPng para fazer o
+router perceber que aquela porta esta fechada e que pode ir pelo outro
+caminho e ter tudo direito
+
+em ipv6 nao é geral é tudo por interface
+
+ao fazer default.information originate, aparece uma rota default
+nos outros routers, para eles saberem que têm de enviar para la, assim:
+	::/0 [120/3]
+	via FE80::C003:15FF:FE9B:0, FastEthernet0/0
+exemplo no router 1
+neste caso o ipv4 e 6 sao semelhantes

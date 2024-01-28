@@ -1,0 +1,35 @@
+que redes é que vai partilhar com os outros --> rip
+o rip permite saber as rotas possiveis
+por exemplo se um router nao chegar ao outro diretamente, atraves do rip
+ele determina as vias de como la chegar atraves dos routers a que esta ligado
+tendo por base os next_hops, so que faz automaticamente, sem necessidade de 
+configurar todas as rotas possiveis
+
+ao fazer show ip route ele mostra todos os caminhos possiveis para cada rede
+
+fazer captura num dos fios de ligação, com a filtragem rip, vemos que sao
+enviados pacotes RIPv1 de mais ou menos 30 em 30 segundos
+os rip responses tem informações das redes
+neste caso manda dois com um pequeno delay, pois esta a comunicar atraves
+do rip com 2 redes diferentes
+
+
+no pacote rip em baixo no WS ele partilha o ip address e a metrica
+que é o custo (isto é o split horizon)
+caso nao queremos isto, fazemos no ip split horizon --> assim vai
+incluir informação de todas as redes
+
+ao dar shutdown a uma interface a metrica aumenta muito (1-->16)
+pois esse deixa de exitir e passa a ter de ir por outra rota
+depois atualiza e passa a ser mais rapido com custo 1, 2 e 3
+á volta
+
+ao voltar a por no shutdown ele volta a fazer o caminho anterior com metrica
+1
+
+o que fazer para garantir que todos os routers de uma empresa tem internet
+(o router 2 tem net), o router 2 anuncia aos outros uma default route
+(dinamico)
+
+ao fazer ip route num router diferente do 2, aparece o caminho default
+que é por onde tudo será mandado
